@@ -1,6 +1,5 @@
 import './App.css';
 import {useState, useEffect} from 'react'
-import Carousel from 'react-elastic-carousel';
 import {Navbar} from "./components/Navbar";
 import {ImageCarousel} from "./components/Carousel";
 
@@ -10,6 +9,7 @@ function App() {
     const [curCat, setCurCat] = useState();
     const [curCatName, setCurCatName] = useState();
     const [curCatImgs, setCurCatImgs] = useState([]);
+    const [curImg, setCurImg] = useState();
     const [flip, setFlip] = useState(false);
 
     const [rotation, setRotation] = useState(0);
@@ -25,6 +25,9 @@ function App() {
                 setCurCat(allData[1]);
                 setCurCatName(allData[1]?.name);
                 setCurCatImgs(allData[1]?.files);
+
+                setCurImg(allData[1]?.files[0]);
+
             } catch (e) {
                 console.log("Something went wrong", e);
             }
@@ -43,6 +46,8 @@ function App() {
             setCurCat(data[nextIndex]);
             setCurCatName(data[nextIndex].name);
             setCurCatImgs(data[nextIndex]?.files);
+            setCurImg(data[nextIndex]?.files[0]);
+
             setFlip(false);
         } else
             alert('End')
@@ -51,12 +56,40 @@ function App() {
     const getPrevCat = () => {
         setFlip(false);
         setRotation(0);
-        let currentIndex = data.indexOf(data.find(dat => dat.name === curCatName))
-        let nextIndex = currentIndex - 1
+        let currentIndex = data.indexOf(data.find(dat => dat.name === curCatName));
+        let nextIndex = currentIndex - 1;
         if (nextIndex > 0) {
-            setCurCat(data[nextIndex])
-            setCurCatName(data[nextIndex].name)
-            setCurCatImgs(data[nextIndex]?.files)
+            setCurCat(data[nextIndex]);
+            setCurCatName(data[nextIndex].name);
+            setCurCatImgs(data[nextIndex]?.files);
+            setCurImg(data[nextIndex]?.files[0]);
+
+        } else
+            alert('End')
+    };
+
+    const getNextImg = () => {
+        setFlip(false);
+        setRotation(0);
+        let currentIndex = curCatImgs.indexOf(curCatImgs.find(img => img === curImg));
+        let nextIndex = currentIndex + 1;
+
+        if (nextIndex < curCatImgs.length) {
+            setCurImg(curCatImgs[nextIndex]);
+
+        } else
+            alert('End')
+    };
+
+    const getPrevImg = () => {
+        setFlip(false);
+        setRotation(0);
+        let currentIndex = curCatImgs.indexOf(curCatImgs.find(img => img === curImg));
+        let nextIndex = currentIndex - 1;
+
+        if (nextIndex > 0) {
+            setCurImg(curCatImgs[nextIndex]);
+
         } else
             alert('End')
     };
@@ -76,9 +109,12 @@ function App() {
             <header className="App-header">
                 <Navbar getPrevCat={getPrevCat} getNextCat={getNextCat} curCatName={curCatName}/>
 
-                <ImageCarousel baseurl={baseurl} curCatName={curCatName}
-                               curCatImgs={curCatImgs} data={data}
-                               rotate={rotate} rotation={rotation}
+                <ImageCarousel
+                    baseurl={baseurl} curCatName={curCatName} curCatImgs={curCatImgs} data={data}
+                    curImg={curImg}
+                    rotate={rotate} rotation={rotation}
+                    getPrevImg={getPrevImg} getNextImg={getNextImg}
+
                 />
             </header>
         </div>
