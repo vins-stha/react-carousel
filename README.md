@@ -25,3 +25,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ### 4. Start the front end app with
     npm start (from root )
 
+By default app runs at [http://localhost:3000] and server runs at [http://localhost:5000](
+
