@@ -45,16 +45,17 @@
 .flex-column {
   display: flex;
   flex-direction: column;
+  width: 90%;
 }
 button {
   padding: 1rem;
   margin: 1rem;
-  border-radius: 50%;
+  border-radius: 10%;
 }
 .image-body {
   width: 100%;
   contain: content;
-  border: 1px solid red;
+  border: 1px solid beige;
   width: 100%;
   min-height: 300px;
 }
@@ -62,3 +63,8 @@ button {
   width: 100%;
   margin: auto 2rem;
 }
+
+.rec-pagination {
+  visibility: hidden !important;
+}
+
