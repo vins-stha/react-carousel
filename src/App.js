@@ -23,8 +23,9 @@ function App() {
 
                 setData(allData);
                 setCurCat(allData[1]);
+                console.log(allData)
                 setCurCatName(allData[1]?.name);
-                setCurCatImgs(allData[1]?.files);
+                setCurCatImgs(allData[1]?.files.sort());
 
                 setCurImg(allData[1]?.files[0]);
 
@@ -42,10 +43,13 @@ function App() {
         setRotation(0);
         let currentIndex = data.indexOf(data.find(dat => dat.name === curCatName))
         let nextIndex = currentIndex + 1;
+
+        console.log('currentIndex',currentIndex, 'next', nextIndex)
+
         if (nextIndex < data.length) {
             setCurCat(data[nextIndex]);
             setCurCatName(data[nextIndex].name);
-            setCurCatImgs(data[nextIndex]?.files);
+            setCurCatImgs(data[nextIndex]?.files.sort());
             setCurImg(data[nextIndex]?.files[0]);
 
             setFlip(false);
@@ -58,10 +62,12 @@ function App() {
         setRotation(0);
         let currentIndex = data.indexOf(data.find(dat => dat.name === curCatName));
         let nextIndex = currentIndex - 1;
+        console.log('currentIndex',currentIndex, 'next', nextIndex);
+
         if (nextIndex > 0) {
             setCurCat(data[nextIndex]);
             setCurCatName(data[nextIndex].name);
-            setCurCatImgs(data[nextIndex]?.files);
+            setCurCatImgs(data[nextIndex]?.files.sort());
             setCurImg(data[nextIndex]?.files[0]);
 
         } else
@@ -87,7 +93,7 @@ function App() {
         let currentIndex = curCatImgs.indexOf(curCatImgs.find(img => img === curImg));
         let nextIndex = currentIndex - 1;
 
-        if (nextIndex > 0) {
+        if (nextIndex >= 0) {
             setCurImg(curCatImgs[nextIndex]);
 
         } else
