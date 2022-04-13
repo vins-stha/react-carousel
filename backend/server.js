@@ -41,22 +41,24 @@ app.get('/', async (req, res, next) => {
 
         count = folders.length;
 
-        folders.map(async (folder) => {
+        folders =  folders.map(folder => folder.toLowerCase()).sort()
+        console.log(folders)
+        folders.map( (folder) => {
             let p = path.join(rootpath.root, folder);
 
             // traverse through each folder
-            await fs.readdir(p, {}, (err, files) => {
+             fs.readdir(p, {}, async(err, files) => {
 
                     // create object with folder name and its contents
                     var allFilesObject = {
                         name: folder,
-                        files: files.sort(),
+                        files: files//.sort(),
                     };
 
-                    obj.push(allFilesObject);
+                   await obj.push(allFilesObject);
                     count--;
                     if (count <= 0) {
-
+                        // console.log(obj)
                         return res.json(obj)
                     }
 
