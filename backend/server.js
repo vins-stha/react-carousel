@@ -1,65 +1,74 @@
 const express = require('express')
 const app = express();
 const port = 5000;
-const fs = require('fs')
+const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
+const cors = require('cors');
 
+
+// middlewares
+const corsOptions = {
+    "origin": "*",
+    "methods": "GET",
+    "preflightContinue": false,
+    "optionsSuccessStatus": 200
+};
+
+app.use(cors(corsOptions));
+
+// serve image files
+app.use('/content', express.static(__dirname + '/content'));
+
+// router
 app.get('/', async (req, res, next) => {
-    let result = [];
+
     var obj = [];
     let count = 0;
-
 
     // read yaml file to get path
     const raw = fs.readFileSync('././config.yml');
     const data = yaml.load(raw);
-    let options = {
+    let rootpath = {
         root: path.join(__dirname, data.datafolder),
-        dotfolders: 'deny',
-        headers: {
-            'x-timestamp': Date.now(),
-            'x-sent': true
-        }
-    }
+    };
+    obj.push({
+        root: data.datafolder
+    });
 
     // read contents of the data folder
-    fs.readdir(options.root, {encoding: 'utf8', withFileTypes: false}, async (err, folders) => {
+    fs.readdir(rootpath.root, {encoding: 'utf8', withFileTypes: false}, async (err, folders) => {
 
         count = folders.length;
-        console.log('number of folders', count);
-        let i = 1;
 
         folders.map(async (folder) => {
-            let p = path.join(options.root, folder);
-
+            let p = path.join(rootpath.root, folder);
 
             // traverse through each folder
             await fs.readdir(p, {}, (err, files) => {
-                const filesWithFullPath = (files.sort()).map((file)=>{return path.join(p,file)})
 
-
-                console.log(p)
+                    // create object with folder name and its contents
                     var allFilesObject = {
                         name: folder,
-                        files: filesWithFullPath //files.sort()
+                        files: files.sort(),
                     };
 
                     obj.push(allFilesObject);
                     count--;
-                    if (count <= 0)
+                    if (count <= 0) {
+
                         return res.json(obj)
+                    }
 
                 }
             );
 
         }); // end
 
-
     })
-  gi})
+});
 
 
 app.listen(port, (request, response) => {
-    console.log('app running in port ', port)
-})
+    console.log('Server started at port  ', port)
+});
