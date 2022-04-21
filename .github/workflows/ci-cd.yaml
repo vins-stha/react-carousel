@@ -20,6 +20,7 @@ on:
 env:
   PROJECT: "Github actions demo"
   COURSE: fs9
+  TOPIC: CI/CD
 
 jobs:
   demo:
