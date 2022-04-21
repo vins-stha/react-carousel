@@ -2,19 +2,48 @@ name: Demo CICD
 
 on: 
   push:
-    branches: [master,dev]
+    branches: 
+      - master
+      - dev
+
+    # what kind of files to look for changes  
+    paths:
+      - '*.ts'
+      - '*.js'
+      - '!test.js' # ignore change in this file
+  
   pull_request:
     branches: [master,dev]
+    branches-gnore:
+      - test-branch 
 
 env:
   PROJECT: "Github actions demo"
-  COURSE:fs9
+  COURSE: fs9
 
 jobs:
   demo:
     runs-on: ubuntu-latest # or docker image name
     steps:
       - name: A bash command
-        run: echo "hello ${{env.PROJECT}}"
+        run: echo "hello "
+
       - name : install python
         run: apt-get install python3
+  # jobs2 runs parallely with demo
+  job2:
+    runs-on: macos
+    steps:
+      - name: new job for macs
+        run: echo "echo from macos"
+
+  jobs3:
+    # requires demo to be completed to continue this job
+    needs:
+      - demo
+    runs-on: ubuntu
+    steps:
+      - name: Third job dpends on job demo
+        
+        if: startsWith('Fasttract', 'fast')
+        run: echo condition fullfilled
