@@ -13,11 +13,20 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
     npm install 
     
 ### 3. Start node server located inside
-    folder: backend by running one of the following 
-    codemon or node server.js
+#####    3.1 change directory prompt to folder-named backend
+    cd backend
+#####    3.2 Run server with one of the commands listed below:
+
+    nodemon 
+    node server.js
     
-### 4. Start the front end app with
-    npm start (from root )
+### 4. Start the front end app
+#####    4.1 change directory prompt to root
+   
+#####    4.2 Run app with with command listed below:
+
+    npm start 
 
 By default app runs at [http://localhost:3000] and server runs at [http://localhost:5000](
 
+# github-actions-demo
