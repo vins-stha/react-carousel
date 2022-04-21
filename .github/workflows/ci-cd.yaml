@@ -1,0 +1,20 @@
+name: Demo CICD
+
+on: 
+  push:
+    branches: [master,dev]
+  pull_request:
+    branches: [master,dev]
+
+env:
+  PROJECT: "Github actions demo"
+  COURSE:fs9
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest # or docker image name
+    steps:
+      - name: A bash command
+        run: echo "hello ${{env.PROJECT}}"
+      - name : install python
+        run: apt-get install python3
